@@ -15,7 +15,7 @@ public class ImperativeStyle {
             if (t.getBuyer().getAge() >= 65)
                 buyers.add(t.getBuyer());
         }
-        List<Buyer> seniorBuyers = new ArrayList<>(buyers);
+        List<Buyer> seniorBuyers = new ArrayList<>(buyers); // again an unnecessary variable
         seniorBuyers.sort(Comparator.comparing(Buyer::getName));
         for (Buyer b : seniorBuyers)
             System.out.println(b.getName());

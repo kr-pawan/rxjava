@@ -43,6 +43,7 @@ public class AsyncObservable {
         }).subscribe(s -> System.out.println(s));
         System.out.println("This should be printed immediately");
         delayMainThreadToPrintOutput();
+
     }
 
     private static void delayExecution() {
