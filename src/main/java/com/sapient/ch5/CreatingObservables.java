@@ -51,9 +51,9 @@ public class CreatingObservables {
 
     private static void fromCreate() {
         var intObservable = intObservable();
-        log("Starting");
-        intObservable.subscribe(i -> log("Element: " + i));
-        log("Exit");
+        print("Starting");
+        intObservable.subscribe(i -> print("Element: " + i));
+        print("Exit");
     }
 
     private static void withConcurrency() {
@@ -83,29 +83,29 @@ public class CreatingObservables {
 
     private static void multipleSubscribers() {
         var intObservable = intObservable();
-        log("Starting");
-        intObservable.subscribe(i -> log("Element A: " + i));
-        intObservable.subscribe(i -> log("Element B: " + i));
-        log("Exit");
+        print("Starting");
+        intObservable.subscribe(i -> print("Element A: " + i));
+        intObservable.subscribe(i -> print("Element B: " + i));
+        print("Exit");
     }
 
     private static void multipleSubscribersWithCache() {
         var intObservable = intObservable().cache();
-        log("Starting");
-        intObservable.subscribe(i -> log("Element A: " + i));
-        intObservable.subscribe(i -> log("Element B: " + i));
-        log("Exit");
+        print("Starting");
+        intObservable.subscribe(i -> print("Element A: " + i));
+        intObservable.subscribe(i -> print("Element B: " + i));
+        print("Exit");
     }
 
     private static Observable<Integer> intObservable() {
-        Observable<Integer> o = Observable
-                .create(subscriber -> {
-                    log("Some expensive operation");
+        Observable<Integer> o =
+                Observable.create(subscriber -> {
+                    print("Some expensive operation");
                     subscriber.onNext(5);
                     subscriber.onNext(6);
                     subscriber.onNext(7);
                     subscriber.onComplete();
-                    log("Completed");
+                    print("Completed");
                 });
         return o;
     }
@@ -114,7 +114,7 @@ public class CreatingObservables {
         multipleSubscribers();
     }
 
-    private static void log(Object msg) {
+    private static void print(Object msg) {
         System.out.println(Thread.currentThread().getName() + ": " + msg);
     }
 
