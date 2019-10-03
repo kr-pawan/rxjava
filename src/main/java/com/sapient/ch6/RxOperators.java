@@ -70,7 +70,27 @@ public class RxOperators {
         Thread.sleep(6000);
     }
 
+    // Uses a pairwise “zip” transformation mapping
+    // When either of those streams completes, the zipped stream completes, so any remaining events from the other stream would be lost
+    private static void zip() {
+        List<String> words = Arrays.asList("the", "quick", "brown", "fox", "jumped", "over", "the", "lazy", "dog");
+        Observable<Integer> rangeObs = Observable.range(1, Integer.MAX_VALUE);
+        Observable<String> wordsObs = Observable.fromIterable(words);
+        wordsObs.zipWith(rangeObs,
+                (string, count) -> String.format("%2d. %s", count, string))
+                .subscribe(System.out::println);
+
+        Observable.fromIterable(words)
+                .flatMap(word -> {
+                    Observable<String> lettersObs = Observable.fromArray(word.split(""));
+                    return lettersObs;
+                })
+                .zipWith(rangeObs,
+                        (string, count) -> String.format("%2d. %s", count, string))
+                .subscribe(System.out::println);
+    }
+
     public static void main(String[] args) throws InterruptedException {
-        concat2();
+        zip();
     }
 }
