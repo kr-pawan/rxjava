@@ -70,6 +70,14 @@ public class RxOperators {
         Thread.sleep(6000);
     }
 
+    private static void merge() throws InterruptedException {
+        Observable.merge(
+                Observable.interval(1, TimeUnit.SECONDS).map(id -> "A" + id),
+                Observable.interval(1, TimeUnit.SECONDS).map(id -> "B" + id))
+                .subscribe(System.out::println);
+        Thread.sleep(5000);
+    }
+
     // Uses a pairwise “zip” transformation mapping
     // When either of those streams completes, the zipped stream completes, so any remaining events from the other stream would be lost
     private static void zip() {
@@ -81,16 +89,13 @@ public class RxOperators {
                 .subscribe(System.out::println);
 
         Observable.fromIterable(words)
-                .flatMap(word -> {
-                    Observable<String> lettersObs = Observable.fromArray(word.split(""));
-                    return lettersObs;
-                })
+                .flatMap(word -> Observable.fromArray(word.split("")))
                 .zipWith(rangeObs,
                         (string, count) -> String.format("%2d. %s", count, string))
                 .subscribe(System.out::println);
     }
 
     public static void main(String[] args) throws InterruptedException {
-        zip();
+        merge();
     }
 }
